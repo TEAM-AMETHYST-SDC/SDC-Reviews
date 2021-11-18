@@ -1,0 +1,5 @@
+const express = require('express');
+const app = express();
+const port = 3000
+
+app.listen(port, (err) => console.log(err ? err : 'listening on port 3000'));
