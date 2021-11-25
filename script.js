@@ -1,63 +1,78 @@
-const { Pool, Client } = require('pg')
+
+const { Sequelize, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize('postgres://localhost:5432/reviewsdb', {
+  define: {
+    timestamps: false
+  }
+});
 
 
-const pool = new Pool({
-  user: '',
-  host: 'localhost',
-  database: 'reviewsdb',
-  password: '',
-  port: 5432,
-})
+const dbconnection = async() => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+
+dbconnection();
+
+const Review = sequelize.define('reviews', {
+  id: { type: DataTypes.INTEGER, primaryKey: true },
+  product_id: { type: DataTypes.INTEGER },
+  rating: { type: DataTypes.SMALLINT },
+  date: { type: DataTypes.DATE },
+  summary: { type: DataTypes.TEXT },
+  body: { type: DataTypes.TEXT },
+  recommend: {type: DataTypes.BOOLEAN },
+  reported: { type: DataTypes.BOOLEAN },
+  reviewer_name: { type: DataTypes.TEXT },
+  reviewer_email: { type: DataTypes.TEXT },
+  response: { type: DataTypes.TEXT },
+  helpfulness: { type: DataTypes.INTEGER }
+});
+
+const Photos = sequelize.define('photos', {
+  id: { type: DataTypes.INTEGER, primaryKey: true },
+  review_id: { type: DataTypes.INTEGER },
+  url: { type: DataTypes.TEXT }
+});
+
+const Characteristics = sequelize.define('characteristics', {
+  id: { type: DataTypes.INTEGER, primaryKey: true },
+  product_id: { type: DataTypes.INTEGER },
+  name: { type: DataTypes.TEXT }
+});
+
+const CharacteristicReviews = sequelize.define('characteristic_reviews', {
+  id: { type: DataTypes.INTEGER, primaryKey: true },
+  characteristic_id: { type: DataTypes.INTEGER },
+  review_id: { type: DataTypes.INTEGER },
+  value: { type: DataTypes.INTEGER }
+});
+
+Review.hasMany(Photos, {foreignKey: 'review_id'});
+Photos.belongsTo(Review, {foreignKey: 'id'});
+
+CharacteristicReviews.belongsTo(Characteristics,
+  { foreignKey: 'id' });
+
+Characteristics.hasMany(CharacteristicReviews,
+  { foreignKey: 'characteristic_id' });
+
+Characteristics.belongsTo(Review,
+  { foreignKey: 'product_id'})
+
+Review.hasMany(Characteristics,
+  { foreignKey: 'product_id'})
 
 
-
-pool.query('SELECT NOW()', (err, res) => {
-  console.log(err, res, 'running')
-  pool.end()
-})
-
-module.exports = pool;
-
-// const client = new Client({
-//   user: 'dbuser',
-//   host: 'localhost',
-//   database: 'reviewsdb',
-//   password: '',
-//   port: 3211,
-// })
-
-// client.connect()
-
-// client.query('SELECT NOW()', (err, res) => {
-//   console.log(err, res)
-//   client.end()
-// })
+exports.sequelize = dbconnection;
+exports.review = Review;
+exports.photos = Photos;
+exports.characteristics = Characteristics;
+exports.characteristicreviews = CharacteristicReviews;
 
 
-
-// module.exports = {
-//   query:(text, params, callback) => {
-//     return pool.query(text, params, callback);
-//   },
-//   connect: (err, client, done) => {
-//     return pool.connect(err, client, done);
-//   },
-// };
-
-// const { Pool, Client } = require('pg')
-// // pools will use environment variables
-// // for connection information
-// const pool = new Pool()
-// pool.query('SELECT NOW()', (err, res) => {
-//   console.log(err, res)
-//   pool.end()
-// })
-// // you can also use async/await
-// const res = await pool.query('SELECT NOW()')
-// await pool.end()
-// // clients will also use environment variables
-// // for connection information
-// const client = new Client()
-// await client.connect()
-// const res = await client.query('SELECT NOW()')
-// await client.end()
