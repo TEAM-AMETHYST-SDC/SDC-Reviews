@@ -2,6 +2,8 @@
 
 const db = require('../../script.js');
 
+console.log(db.sequelize);
+
 const getReviews = async(product_id, count, page, sort) => {
   try {
     const reviews = await db.review.findAll({
@@ -46,52 +48,24 @@ const getReviews = async(product_id, count, page, sort) => {
   }
 }
 
-// const getPhotos = Promise.all(reviewIds.map(async id => {
-//   const photos = await db.photos.findAll({
-//     raw: true,
-//     where: { review_id: id}
-//   })
-//   console.log(photos);
-// }))
+const postReview  = async (product_id, rating, summary, body, recommend, name, email, ) => {
+  try {
+    const postToReviews = await db.review.create({
+      where: {product_id: product_id},
+      rating: rating,
+      summary: summary,
+      body: body,
+      recommend: recommend,
+      name: name,
+      email: email
+    });
+    const postToPhotos = await db.photos.create({
 
-
-
-// const getPhotos = async() => {
-//   try {
-//     const photos
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-
-
-
-// module.exports = {
-
-//   review_ids: [],
-
-//   getAllReviews: function (product_id, callback) {
-//     db.review.findAll({
-//       limit: 5,
-//       raw: true,
-//       where: { product_id: product_id },
-//       include: [
-//         {
-//           model: db.photos,
-//           raw: true
-//         }
-//       ]
-//     })
-//     .then((reviews) => {
-//       console.log(reviews);
-//       callback(null, reviews);
-//     })
-//     .catch((err) => {
-//       callback(err);
-//     })
-//   },
-
+    })
+  } catch(err) {
+    console.log(err)
+  }
+}
 
 const updateReviewHelpfulness = async (review_id) => {
   try {
@@ -119,21 +93,6 @@ const reportReview = async (review_id) => {
   }
 }
 
-
-//   updateReviewHelpfulness: function(review_id, callback) {
-//     db.review.increment('helpfulness', {
-//       by: 1,
-//       where: { id: review_id },
-//       returning: false
-//     })
-//     .then((response) => {
-//       callback(response);
-//     })
-//     .catch((err) => {
-//       callback(err);
-//     })
-//   }
-// }
 
 exports.getReviews = getReviews;
 exports.updateReviewHelpfulness = updateReviewHelpfulness;

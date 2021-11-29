@@ -32,6 +32,13 @@ const Review = sequelize.define('reviews', {
   reviewer_email: { type: DataTypes.TEXT },
   response: { type: DataTypes.TEXT },
   helpfulness: { type: DataTypes.INTEGER }
+}, {
+  indexes: [
+    {
+      unique: false,
+      fields: ['id', 'product_id']
+    }
+  ]
 });
 
 const Photos = sequelize.define('photos', {
@@ -69,10 +76,10 @@ Review.hasMany(Characteristics,
   { foreignKey: 'product_id'})
 
 
-exports.sequelize = dbconnection;
+exports.connection = dbconnection;
 exports.review = Review;
 exports.photos = Photos;
 exports.characteristics = Characteristics;
 exports.characteristicreviews = CharacteristicReviews;
-
+exports.sequelize = Sequelize;
 

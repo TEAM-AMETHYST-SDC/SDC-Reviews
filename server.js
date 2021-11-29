@@ -81,7 +81,20 @@ app.get('/reviews/', async (req, res) => {
 //   });
 // })
 
-app.post('/reviews/', (req, res) => {
+app.post('/reviews/', async (req, res) => {
+  const { product_id,
+          rating,
+          summary,
+          body,
+          recommend,
+          name,
+          email,
+          photos,
+          characteristics } = req.body;
+  const postReview = await reviewModels.postReview(product_id);
+  !product_id ? res.status(404).send('Err, invalid review id')
+  : postReview(product_id);
+  res.status(201).send('CREATED');
 
 })
 
