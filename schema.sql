@@ -45,6 +45,14 @@ CREATE TABLE IF NOT EXISTS photos
   url TEXT
 );
 
+CREATE INDEX r_id_idx ON reviews(product_id);
+
+CREATE INDEX c_id_idx ON characteristic_reviews(review_id);
+
+CREATE INDEX p_id_idx ON photos(review_id);
+
+
+
 
 COPY reviews FROM '/Users/guillermo/Desktop/data/reviews.csv'  DELIMITER ',' CSV HEADER;
 COPY characteristics FROM '/Users/guillermo/Desktop/data/characteristics.csv' DELIMITER ',' CSV HEADER;

@@ -66,9 +66,9 @@ app.put('/reviews/:review_id/report', async(req, res) => {
 
 app.get('/reviews/meta', async (req, res) => {
   const { product_id } = req.query;
-  const getData = await metaModels.getMetaData(product_id);
+  const characteristics = await metaModels.getMetaData(product_id);
   !product_id ? res.status(404).send('Err, invalid product id') :
-  res.json(getData);
+  res.json(characteristics);
 })
 
 
