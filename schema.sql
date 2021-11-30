@@ -4,8 +4,6 @@ CREATE DATABASE reviewsdb;
 
 \c reviewsdb;
 
-
-
 CREATE TABLE IF NOT EXISTS reviews
 (
   id SERIAL PRIMARY KEY,
@@ -21,6 +19,9 @@ CREATE TABLE IF NOT EXISTS reviews
   response TEXT,
   helpfulness INT
 );
+
+
+
 
 CREATE TABLE IF NOT EXISTS characteristics
 (
@@ -45,7 +46,7 @@ CREATE TABLE IF NOT EXISTS photos
 );
 
 
-COPY reviews FROM '/Users/guillermo/Desktop/data/reviews.csv' DELIMITER ',' CSV HEADER;
+COPY reviews FROM '/Users/guillermo/Desktop/data/reviews.csv'  DELIMITER ',' CSV HEADER;
 COPY characteristics FROM '/Users/guillermo/Desktop/data/characteristics.csv' DELIMITER ',' CSV HEADER;
 COPY characteristic_reviews FROM '/Users/guillermo/Desktop/data/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
 COPY photos FROM '/Users/guillermo/Desktop/data/reviews_photos.csv' DELIMITER ',' CSV HEADER;

@@ -7,8 +7,8 @@ console.log(db.sequelize);
 const getReviews = async(product_id, count, page, sort) => {
   try {
     const reviews = await db.review.findAll({
-      limit: count || 5,
-      offset: page || 0,
+      limit: count,
+      offset: page * count,
       // figure out how to do the order sort
       // order: ['relevant', 'DESC'],
       raw: false,
@@ -48,22 +48,40 @@ const getReviews = async(product_id, count, page, sort) => {
   }
 }
 
-const postReview  = async (product_id, rating, summary, body, recommend, name, email, ) => {
+const postReview  = async (product_id, rating, summary, body, recommend, name, email, photos, characteristics) => {
   try {
     const postToReviews = await db.review.create({
-      where: {product_id: product_id},
+      product_id: product_id,
       rating: rating,
+      date: new Date(),
       summary: summary,
       body: body,
       recommend: recommend,
-      name: name,
-      email: email
+      reported: false,
+      reviewer_name: name,
+      reviewer_email: email,
+      response: null,
+      helpfulness: 0
     });
-    const postToPhotos = await db.photos.create({
 
+    photos.forEach(photo => {
+      db.photos.create({
+        review_id: postToReviews.id,
+        url: photo
+      })
     })
+
+    for (var key in characteristics) {
+      console.log('this is the key',key)
+      const postToCharacteristics = await db.characteristicreviews.create({
+        characteristic_id: key,
+        review_id: postToReviews.id,
+        value: characteristics[key]
+      })
+    }
   } catch(err) {
-    console.log(err)
+    // console.log(err)
+    throw new Error(err)
   }
 }
 
@@ -97,3 +115,4 @@ const reportReview = async (review_id) => {
 exports.getReviews = getReviews;
 exports.updateReviewHelpfulness = updateReviewHelpfulness;
 exports.reportReview = reportReview;
+exports.postReview = postReview;

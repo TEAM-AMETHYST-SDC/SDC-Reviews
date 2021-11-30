@@ -6,19 +6,27 @@ const getMetaData = async (product_id) => {
     const getRatings = await db.review.findAll({
       where: { product_id: product_id },
       raw: true,
-      attributes: ['rating', [db.sequelize.fn('count', db.sequelize.col("rating")), "count"]],
+      attributes: ['rating', [db.sequelize.fn('count', db.sequelize.col('rating')), 'count']],
       group: 'rating'
+    })
+    const ratings = {product_id: product_id};
+    getRatings.forEach(rating => {
+      ratings[rating.rating] = rating.count;
     })
     const getRecommended = await db.review.findAll({
       where: { product_id: product_id },
       raw: true,
       attributes: ['recommend', [db.sequelize.fn('count', db.sequelize.col('recommend')), 'count']],
       group: 'recommend'
-      // raw: true,
+    })
+    const recommended = {};
+
+    getRecommended.forEach(r => {
+      r.recommend ? recommended['0'] = r.count :
+      recommended['1'] = r.count
     })
     const getCharacteristics = await db.characteristics.findAll({
       where: { product_id: product_id },
-      // raw: true,
       include: [
         {
           model: db.characteristicreviews,
@@ -26,34 +34,33 @@ const getMetaData = async (product_id) => {
         }
       ]
     })
-    // console.log('this is the recommended')
-    // console.log('these are the recommended', getRecommended);
-    // console.log('these are the characteristics', getCharacteristics);
     const charData = await Promise.all(
       getCharacteristics.map(data => {
-        // for (var key in data.dataValues) {
-        //   return data.dataValues[key];
-        // }
-        // console.log(data.dataValues);
         return {
           [data.dataValues.name]: {
             id: data.dataValues.id,
-            value: data.dataValues.characteristic_reviews.map(item => {
-              console.log(item);
+            value: data.dataValues.characteristic_reviews.map(values => {
+              return values.dataValues.value;
             })
           }
         }
       })
     )
-    console.log(charData);
+    characteristics = {};
 
-    // const metaResults = await Promise.all(
-    //   getCharacteristics.map(item => {
-    //     return item.attributes.map(item2 => {
-    //       console.log(item2)
-    //     })
-    //   }))
-      // console.log('these are the meta results', metaResults)
+    charData.forEach(item => {
+      for (var key in item) {
+        characteristics[key] = {
+          id: item[key].id,
+          value: item[key].value.reduce(function(sum, current) {
+            return sum + current;
+          }, 0) / item[key].value.length
+        }
+      }
+    })
+
+    return { ratings, recommended, characteristics }
+
   } catch(err) {
     console.log(err);
   }

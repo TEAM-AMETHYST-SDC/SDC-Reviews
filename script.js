@@ -20,7 +20,10 @@ const dbconnection = async() => {
 dbconnection();
 
 const Review = sequelize.define('reviews', {
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.UUID,
+    primaryKey: true,
+    autoIncrement: true
+  },
   product_id: { type: DataTypes.INTEGER },
   rating: { type: DataTypes.SMALLINT },
   date: { type: DataTypes.DATE },
@@ -36,25 +39,39 @@ const Review = sequelize.define('reviews', {
   indexes: [
     {
       unique: false,
-      fields: ['id', 'product_id']
+      fields: ['id']
     }
   ]
 });
 
 const Photos = sequelize.define('photos', {
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.UUID, primaryKey: true, autoIncrement: true },
   review_id: { type: DataTypes.INTEGER },
   url: { type: DataTypes.TEXT }
+}, {
+  indexes: [
+    {
+      unique: false,
+      fields: ['review_id']
+    }
+  ]
 });
 
 const Characteristics = sequelize.define('characteristics', {
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.UUID, primaryKey: true },
   product_id: { type: DataTypes.INTEGER },
   name: { type: DataTypes.TEXT }
+}, {
+  indexes: [
+    {
+      unique: false,
+      fields: ['product_id']
+    }
+  ]
 });
 
 const CharacteristicReviews = sequelize.define('characteristic_reviews', {
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.UUID, primaryKey: true, autoIncrement: true },
   characteristic_id: { type: DataTypes.INTEGER },
   review_id: { type: DataTypes.INTEGER },
   value: { type: DataTypes.INTEGER }
