@@ -1,8 +1,5 @@
 const reviewModels = require('./server/models/reviews.js');
-console.log(reviewModels);
 const metaModels = require('./server/models/meta.js');
-
-// console.log('these are the models', metaModels)
 
 const express = require('express');
 const app = express();
