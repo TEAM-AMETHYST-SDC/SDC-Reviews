@@ -20,6 +20,7 @@
   "homepage": "https://github.com/TEAM-AMETHYST-SDC/SDC-Reviews#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "jmeter": "0.0.1",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "postgres": "^1.0.2",

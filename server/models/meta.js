@@ -9,7 +9,9 @@ const getMetaData = async (product_id) => {
       attributes: ['rating', [db.sequelize.fn('count', db.sequelize.col('rating')), 'count']],
       group: 'rating'
     })
-    const ratings = {product_id: product_id};
+
+    const ratings = {};
+
     getRatings.forEach(rating => {
       ratings[rating.rating] = rating.count;
     })
@@ -48,16 +50,16 @@ const getMetaData = async (product_id) => {
     )
     characteristics = {};
 
-    charData.forEach(item => {
-      for (var key in item) {
-        characteristics[key] = {
-          id: item[key].id,
-          value: item[key].value.reduce(function(sum, current) {
-            return sum + current;
-          }, 0) / item[key].value.length
-        }
-      }
-    })
+    // charData.forEach(item => {
+    //   for (var key in item) {
+    //     characteristics[key] = {
+    //       id: item[key].id,
+    //       value: item[key].value.reduce(function(sum, current) {
+    //         return sum + current;
+    //       }, 0) / item[key].value.length
+    //     }
+    //   }
+    // })
 
     return { ratings, recommended, characteristics }
 
