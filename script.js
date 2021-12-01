@@ -4,7 +4,9 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('postgres://localhost:5432/reviewsdb', {
   define: {
     timestamps: false
-  }
+  },
+  user: 'guillermo',
+  password: 'getmoney'
 });
 
 
