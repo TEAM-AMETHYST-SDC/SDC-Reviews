@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "createdb": "psql postgres < schema.sql"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,11 @@
   },
   "homepage": "https://github.com/TEAM-AMETHYST-SDC/SDC-Reviews#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jmeter": "0.0.1",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "postgres": "^1.0.2",
+    "sequelize": "^6.12.0-alpha.1"
   }
 }
