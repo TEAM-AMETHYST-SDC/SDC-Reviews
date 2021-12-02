@@ -54,8 +54,8 @@ CREATE INDEX p_id_idx ON photos(review_id);
 
 
 
-COPY reviews FROM './data/reviews.csv'  DELIMITER ',' CSV HEADER;
-COPY characteristics FROM './data/characteristics.csv' DELIMITER ',' CSV HEADER;
-COPY characteristic_reviews FROM './data/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
-COPY photos FROM './data/reviews_photos.csv' DELIMITER ',' CSV HEADER;
+COPY reviews FROM '/home/ubuntu/SDC-Reviews/data/reviews.csv'  DELIMITER ',' CSV HEADER;
+COPY characteristics FROM '/home/ubuntu/SDC-Reviews/data/characteristics.csv' DELIMITER ',' CSV HEADER;
+COPY characteristic_reviews FROM '/home/ubuntu/SDC-Reviews/data/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
+COPY photos FROM '/home/ubuntu/SDC-Reviews/data/reviews_photos.csv' DELIMITER ',' CSV HEADER;
 
