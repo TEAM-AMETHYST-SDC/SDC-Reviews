@@ -10,11 +10,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 // });
 
 const sequelize = new Sequelize('reviewsdb', 'ubuntu', '', {
-  dialect: 'postgres', port: 5432, {
-    define: {
-      timestamps: false
-    }
-  }
+  dialect: 'postgres', port: 5432, define: { timestamps: false }
 })
 
 const dbconnection = async() => {
