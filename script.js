@@ -1,14 +1,21 @@
 
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('postgres://localhost:5432/reviewsdb', {
-  define: {
-    timestamps: false
-  },
-  user: 'ubuntu',
-  password: ''
-});
+// const sequelize = new Sequelize('postgres://localhost:5432/reviewsdb', {
+//   define: {
+//     timestamps: false
+//   },
+//   user: 'ubuntu',
+//   password: ''
+// });
 
+const sequelize = new Sequelize('reviewsdb', 'ubuntu', '', {
+  dialect: 'postgres', port: 5432, {
+    define: {
+      timestamps: false
+    }
+  }
+})
 
 const dbconnection = async() => {
   try {
