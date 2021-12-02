@@ -9,7 +9,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 //   password: ''
 // });
 
-const sequelize = new Sequelize('reviewsdb', 'ubuntu', '', {
+const sequelize = new Sequelize('reviewsdb', 'ubuntu', null, {
   dialect: 'postgres', port: 5432, define: { timestamps: false }
 })
 
