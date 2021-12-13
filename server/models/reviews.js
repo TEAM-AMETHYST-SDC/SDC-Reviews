@@ -2,15 +2,11 @@
 
 const db = require('../../script.js');
 
-console.log(db.sequelize);
-
 const getReviews = async(product_id, count, page, sort) => {
   try {
     const reviews = await db.review.findAll({
       limit: count,
       offset: page * count,
-      // figure out how to do the order sort
-      // order: ['relevant', 'DESC'],
       raw: false,
       where: { product_id: product_id,
                reported: false
