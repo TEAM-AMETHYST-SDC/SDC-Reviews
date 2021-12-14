@@ -1,17 +1,38 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-const sequelize = new Sequelize("postgres://localhost:5432/reviewsdb", {
-  define: {
-    timestamps: false,
+// const sequelize = new Sequelize("postgres://localhost:5432/reviewsdb", {
+//   define: {
+//     timestamps: false,
+//   },
+//   dialectOptions: {
+//     ssl: {
+//       require: false,
+//       rejectUnauthorized: false,
+//     },
+//   },
+// });
+
+const sequelize = new Sequelize({
+  database: "reviewsdb",
+  username: "guillermo",
+  host: "host.docker.internal",
+  dialect: "postgres",
+  port: 5432,
+  pool: {
+    max: 100,
+    min: 0,
+    idle: 200000,
+    acquire: 1000000,
   },
+  define: { timestamps: false },
 });
 
-// const sequelize = new Sequelize('reviewsdb', 'ubuntu', 'getmoney', {
-//   host: 'localhost',
-//   dialect: 'postgres',
+// const sequelize = new Sequelize("reviewsdb", "ubuntu", "getmoney", {
+//   host: 3001,
+//   dialect: "postgres",
 //   port: 5432,
-//   define: { timestamps: false }
-// })
+//   define: { timestamps: false },
+// });
 
 const dbconnection = async () => {
   try {
